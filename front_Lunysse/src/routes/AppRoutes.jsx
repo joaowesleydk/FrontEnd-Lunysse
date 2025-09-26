@@ -25,6 +25,7 @@ import { Relatorios } from '../pages/Relatorios';
 import { Solicitacoes } from '../pages/Solicitacoes';
 import { Pacientes } from '../pages/Paciente';
 import { PacienteDetalhe } from '../pages/PacienteDetalhe';
+import { SessaoDetalhes } from '../pages/SessaoDetalhes';
  
  
 /* ==============================
@@ -148,6 +149,11 @@ export const AppRoutes = () => {
          <Route path="/pacientes/:id" element={
   <ProtectedRoute>
     <PacienteDetalhe/> 
+  </ProtectedRoute>
+} />
+ <Route path="/sessao/:sessionId" element={
+  <ProtectedRoute>
+    <SessaoDetalhes/> 
   </ProtectedRoute>
 } />
       </Routes>
