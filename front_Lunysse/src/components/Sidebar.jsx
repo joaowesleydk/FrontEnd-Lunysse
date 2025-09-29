@@ -39,10 +39,11 @@ export const Sidebar = () => {
         { to: '/solicitacoes', label: 'Solicitações', icon: Bell },
 
         { to: '/pacientes', label: 'Pacientes', icon: Users },
+        { to: '/relatorios', label: 'Relatórios', icon: BarChart3 },
 
-        { to: '/chat-ia', label: 'Chat IA', icon: MessageCircle },
+        { to: '/chat-ia', label: 'Chat IA', icon: MessageCircle }
 
-        { to: '/relatorios', label: 'Relatórios', icon: BarChart3 }
+        
 
       ]
 

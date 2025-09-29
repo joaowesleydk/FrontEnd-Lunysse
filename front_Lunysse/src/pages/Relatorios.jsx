@@ -10,64 +10,46 @@ import { LoadingSpinner } from '../components/LoadingSpinner';
 
 import { 
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, 
-  LineChart, Line  // <-- Importações mantidas
+  LineChart, Line
 } from 'recharts';
 
 import { AlertTriangle, TrendingUp, Users, Calendar, BarChart3 } from 'lucide-react';
 
 export const Relatorios = () => {
-
   const { user } = useAuth();
-
   const [loading, setLoading] = useState(true);
-
   const [reportsData, setReportsData] = useState(null);
 
   useEffect(() => {
-
     const loadReportsData = async () => {
-
       try {
-
         const data = await mockApi.getReportsData(user.id);
-
         setReportsData(data);
-
       } catch (error) {
-
         console.error('Erro ao carregar dados dos relatórios:', error);
-
       } finally {
-
         setLoading(false);
-
       }
-
     };
 
     loadReportsData();
-
   }, [user.id]);
 
   if (loading) return <LoadingSpinner size="lg" />;
-
   if (!reportsData) return <div>Erro ao carregar dados</div>;
 
   const { stats, frequencyData, statusData, riskAlerts } = reportsData;
-
-  // Verifica se é um psicólogo novo (sem dados)
 
   const hasNoData = stats.activePatients === 0 && stats.totalSessions === 0;
 
   return (
     <div className="space-y-6">
-      <div className="text-center">
-        <h1 className="text-3xl font-bold text-dark mb-2">Relatórios e Analytics</h1>
-        <p className="text-dark/70">Acompanhe métricas e indicadores da sua prática</p>
-      </div>
+     
+        <h1 className="text-3xl font-bold text-dark mb-2">Relatórios</h1>
+       
+      
 
-      {/* Mensagem para psicólogos sem dados */}
-
+      {/* Caso não tenha dados */}
       {hasNoData ? (
         <Card className="text-center py-12 border-2 border-dashed border-light/30">
           <BarChart3 className="w-16 h-16 text-light/50 mx-auto mb-4" />
@@ -108,8 +90,9 @@ export const Relatorios = () => {
             </Card>
           </div>
 
-          {/* Gráficos */}
+          {/* Gráficos + Alertas */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Frequência */}
             <Card>
               <h2 className="text-xl font-semibold text-dark mb-4">Frequência de Sessões</h2>
               <ResponsiveContainer width="100%" height={300}>
@@ -123,6 +106,7 @@ export const Relatorios = () => {
               </ResponsiveContainer>
             </Card>
 
+            {/* Status */}
             <Card>
               <h2 className="text-xl font-semibold text-dark mb-4">Status das Sessões</h2>
               <ResponsiveContainer width="100%" height={300}>
@@ -143,7 +127,8 @@ export const Relatorios = () => {
               </ResponsiveContainer>
             </Card>
 
-            <Card>
+            {/* Alertas - agora ocupa a largura toda */}
+            <Card className="lg:col-span-2">
               <h2 className="text-xl font-semibold text-dark mb-4 flex items-center gap-2">
                 <AlertTriangle className="w-5 h-5 text-red-500" />
                 Alertas de Risco
@@ -153,7 +138,10 @@ export const Relatorios = () => {
                   <p className="text-dark/70 text-center py-4">Nenhum alerta de risco no momento</p>
                 ) : (
                   riskAlerts.map(alert => (
-                    <div key={alert.id} className="flex justify-between items-center p-4 bg-white/10 rounded-lg">
+                    <div
+                      key={alert.id}
+                      className="flex justify-between items-center p-4 bg-white/10 rounded-lg"
+                    >
                       <div>
                         <p className="font-medium text-dark">{alert.patient}</p>
                         <p className="text-sm text-dark/70">{alert.reason}</p>

@@ -1,11 +1,16 @@
-import { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, Suspense } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { mockApi } from '../services/mockApi';
-import { Calendar, Users, Bell , CheckCheck } from 'lucide-react';
-import { UpcomingAppointmentItem } from '../components/UpcomingAppointmentItem';
 import { LoadingSpinner } from '../components/LoadingSpinner';
 import { KpiCard } from '../components/KpiCard';
+import { Calendar, Users, Bell, CheckCheck } from 'lucide-react';
 
+// Lazy load para reduzir JS inicial
+const UpcomingAppointmentItem = React.lazy(() =>
+  import('../components/UpcomingAppointmentItem').then(module => ({
+    default: module.UpcomingAppointmentItem, // garante que funcione mesmo se export for nomeado
+  }))
+);
 
 export const DashboardPsicologo = () => {
   const { user } = useAuth();
@@ -19,11 +24,12 @@ export const DashboardPsicologo = () => {
       const [appointmentsData, patientsData, requestsData] = await Promise.all([
         mockApi.getAppointments(user.id, 'psicologo'),
         mockApi.getPatients(user.id),
-        mockApi.getRequests(user.id)
+        mockApi.getRequests(user.id),
       ]);
-      setAppointments(appointmentsData);
-      setPatients(patientsData);
-      setRequests(requestsData);
+
+      setAppointments(appointmentsData || []);
+      setPatients(patientsData || []);
+      setRequests(requestsData || []);
     } catch (error) {
       console.error('Erro ao carregar dados:', error);
     } finally {
@@ -38,9 +44,9 @@ export const DashboardPsicologo = () => {
   useEffect(() => {
     const handleFocus = () => loadData();
     window.addEventListener('focus', handleFocus);
-   
-    const interval = setInterval(loadData, 5000);
-   
+
+    const interval = setInterval(loadData, 10000); // menos requisições
+
     return () => {
       window.removeEventListener('focus', handleFocus);
       clearInterval(interval);
@@ -58,7 +64,7 @@ export const DashboardPsicologo = () => {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  const todayAppointments = appointments.filter(apt => {
+  const todayAppointments = appointments.filter((apt) => {
     const appointmentDate = new Date(apt.date);
     appointmentDate.setHours(0, 0, 0, 0);
 
@@ -70,20 +76,25 @@ export const DashboardPsicologo = () => {
   });
 
   const totalPatients = patients.length;
-  const completedSessions = appointments.filter(apt =>
-    apt.status === 'concluido' && apt.psychologistId === user.id
+  const completedSessions = appointments.filter(
+    (apt) => apt.status === 'concluido' && apt.psychologistId === user.id
   ).length;
-  const pendingRequests = requests.filter(req =>
-    req.status === 'pendente' && req.preferredPsychologist === user.id
+  const pendingRequests = requests.filter(
+    (req) => req.status === 'pendente' && req.preferredPsychologist === user.id
   ).length;
 
-  const upcomingAppointments = appointments.filter(apt =>
-    new Date(apt.date) >= new Date() &&
-    apt.status === 'agendado' &&
-    apt.psychologistId === user.id
-  ).slice(0, 5);
+  // já limita para não trazer payload gigante
+  const upcomingAppointments = appointments
+    .filter(
+      (apt) =>
+        new Date(apt.date) >= new Date() &&
+        apt.status === 'agendado' &&
+        apt.psychologistId === user.id
+    )
+    .slice(0, 5);
 
-  const isNewPsychologist = totalPatients === 0 && appointments.length === 0 && requests.length === 0;
+  const isNewPsychologist =
+    totalPatients === 0 && appointments.length === 0 && requests.length === 0;
 
   return (
     <div className="space-y-6">
@@ -96,13 +107,17 @@ export const DashboardPsicologo = () => {
       {isNewPsychologist && (
         <div className="bg-white rounded-lg shadow-md p-6 text-center border-2 border-dashed border-light/30">
           <Users className="w-16 h-16 text-light/50 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold text-dark mb-2">Bem-vindo ao Lunysse!</h3>
+          <h3 className="text-xl font-semibold text-dark mb-2">
+            Bem-vindo ao Lunysse!
+          </h3>
           <p className="text-dark/70 mb-4">
-            Você é novo por aqui. Seus pacientes e agendamentos aparecerão neste dashboard
-            conforme você começar a receber solicitações e agendar sessões.
+            Você é novo por aqui. Seus pacientes e agendamentos aparecerão neste
+            dashboard conforme você começar a receber solicitações e agendar
+            sessões.
           </p>
           <p className="text-sm text-dark/50">
-            Explore o menu lateral para conhecer todas as funcionalidades disponíveis.
+            Explore o menu lateral para conhecer todas as funcionalidades
+            disponíveis.
           </p>
         </div>
       )}
@@ -131,15 +146,17 @@ export const DashboardPsicologo = () => {
         />
       </div>
 
-      
       {/* Próximos Agendamentos */}
       {!isNewPsychologist && (
         <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-xl font-semibold text-dark mb-4">Próximos Agendamentos</h2>
+          <h2 className="text-xl font-semibold text-dark mb-4">
+            Próximos Agendamentos
+          </h2>
           {upcomingAppointments.length === 0 ? (
             <div className="text-center py-8">
-              <Calendar className="w-16 h-16 text-dark/30 mx-auto mb-4" />
-              <p className="text-dark/70 mb-2">Nenhum agendamento futuro encontrado.</p>
+              <p className="text-dark/70 mb-2">
+                Nenhum agendamento futuro encontrado.
+              </p>
               <p className="text-sm text-dark/50">
                 {totalPatients === 0
                   ? 'Você ainda não possui pacientes cadastrados.'
@@ -147,18 +164,22 @@ export const DashboardPsicologo = () => {
               </p>
             </div>
           ) : (
-            <div className="space-y-3">
-              {upcomingAppointments.map(appointment => {
-                const patient = patients.find(p => p.id === appointment.patientId);
-                return (
-                  <UpcomingAppointmentItem 
-                    key={appointment.id}
-                    appointment={appointment}
-                    patient={patient}
-                  />
-                );
-              })}
-            </div>
+            <Suspense fallback={<LoadingSpinner size="sm" />}>
+              <div className="space-y-3">
+                {upcomingAppointments.map((appointment) => {
+                  const patient = patients.find(
+                    (p) => p.id === appointment.patientId
+                  );
+                  return (
+                    <UpcomingAppointmentItem
+                      key={appointment.id}
+                      appointment={appointment}
+                      patient={patient}
+                    />
+                  );
+                })}
+              </div>
+            </Suspense>
           )}
         </div>
       )}

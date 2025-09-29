@@ -81,8 +81,8 @@ export const Pacientes = () => {
   return (
 <div className="space-y-6">
 <div className="flex items-center gap-3">
-<Users className="w-8 h-8 text-light" />
-<h1 className="text-3xl font-bold text-white">Meus Pacientes</h1>
+
+<h1 className="text-3xl font-bold text-dark">Meus Pacientes</h1>
 </div>
  
       <div className="grid gap-6">

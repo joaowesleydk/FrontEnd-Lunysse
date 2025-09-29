@@ -137,7 +137,7 @@ export const ChatIA = () => {
 <div className="max-w-4xl mx-auto">
 <div className="mb-8">
 <h1 className="text-3xl font-bold text-dark mb-2">Chat com IA</h1>
-<p className="text-white">Assistente especializada em psicologia para apoiar sua prática clínica</p>
+
 </div>
  
       <Card className="h-[600px] flex flex-col">
@@ -238,7 +238,7 @@ export const ChatIA = () => {
 
               onKeyPress={handleKeyPress}
 
-              placeholder="Digite sua pergunta sobre psicologia..."
+              placeholder="Digite sua pergunta..."
 
               className="flex-1 resize-none border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-light focus:border-transparent"
 
@@ -269,39 +269,13 @@ export const ChatIA = () => {
 
       )}
  
-      {/* Quick Actions */}
-<div className="mt-6">
-<h3 className="text-lg font-semibold text-dark mb-3">Perguntas Sugeridas</h3>
-<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+      
+        
 
-          {[
+          
 
-            'Como lidar com pacientes com ansiedade?',
-
-            'Técnicas para terapia infantil',
-
-            'Abordagens para terapia de casal',
-
-            'Sinais de alerta em depressão'
-
-          ].map((suggestion, index) => (
-<button
-
-              key={index}
-
-              onClick={() => setInputMessage(suggestion)}
-
-              className="text-left p-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 hover:border-light transition-colors"
-
-              disabled={isLoading}
->
-<span className="text-sm text-gray-700">{suggestion}</span>
-</button>
-
-          ))}
 </div>
-</div>
-</div>
+
 
   );
 
