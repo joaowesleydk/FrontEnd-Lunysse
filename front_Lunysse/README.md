@@ -1,143 +1,98 @@
-Lunysse – Plataforma para Agendamento de Consultas Psicológicas
+# 🌙 Lunysse – Plataforma para Agendamento de Consultas Psicológicas
 
-Aplicação web moderna para o gerenciamento de consultas psicológicas, criada com React 19 e Vite, destinada a apoiar atendimentos voluntários em universidades, ONGs e projetos sociais.
+Aplicação web moderna para o gerenciamento de consultas psicológicas, criada com **React 19** e **Vite**, destinada a apoiar atendimentos voluntários em universidades, ONGs e projetos sociais.
 
-📑 Índice
+---
 
-Visão Geral
+## 📑 Índice
+- [Visão Geral](#-visão-geral)
+- [Funcionalidades](#️-funcionalidades)
+- [Tecnologias Utilizadas](#-tecnologias-utilizadas)
+- [Como Rodar](#️-como-rodar)
+- [Estrutura do Código](#-estrutura-do-código)
+- [Componentes Principais](#-componentes-principais)
+- [Rotas da Aplicação](#-rotas-da-aplicação)
+- [Contribuindo](#-contribuindo)
+- [Licença](#-licença)
+- [Equipe](#-equipe)
 
-Funcionalidades
+---
 
-Tecnologias Utilizadas
+## 🎯 Visão Geral
+O **Lunysse** foi criado para facilitar a marcação e o gerenciamento de sessões psicológicas, especialmente em projetos de atendimento voluntário.  
+Com interfaces específicas para **psicólogos** e **pacientes**, o sistema oferece uma experiência simples, intuitiva e eficiente.
 
-Como Rodar
+**Metas do Projeto:**
+- 📅 Agendamento prático e rápido de consultas  
+- 👩‍⚕️ Gestão centralizada de pacientes para psicólogos  
+- 📊 Visualização de relatórios e análises  
+- 🗂️ Histórico detalhado de sessões  
+- 📱 Interface responsiva, moderna e de fácil navegação  
 
-Estrutura do Código
+---
 
-Modelo de Dados
+## ⚙️ Funcionalidades
 
-API Simulada
+### 👩‍⚕️ Para Psicólogos
+- Painel com visão geral e KPIs  
+- Lista detalhada de pacientes  
+- Histórico e relatórios completos  
+- Controle de sessões (status, notas, relatórios)  
+- Chat integrado com IA especializada em psicologia  
+- Agenda personalizada com horários disponíveis  
 
-Chat com Inteligência Artificial
+### 👤 Para Pacientes
+- Painel com informações de suas consultas  
+- Marcação flexível de sessões (psicólogo, data, hora)  
+- Ver especialistas disponíveis e suas áreas  
+- Visualização de horários livres em tempo real  
 
-Componentes Principais
+### 🔐 Segurança e Autenticação
+- Login seguro com validação  
+- Diferenciação automática entre perfis  
+- Interfaces de login distintas  
+- Cadastro com validação de dados  
+- Controle de acesso baseado em perfil  
 
-Rotas da Aplicação
+---
 
-Design e UI
+## 🛠️ Tecnologias Utilizadas
 
-Contribuindo
+### Frontend
+- React **19.1.1**  
+- Vite **7.1.0**  
+- React Router DOM **7.8.0**  
+- Tailwind CSS **4.1.11**  
+- Framer Motion **12.23.12**  
+- Lucide React **0.539.0**  
+- Recharts **3.1.2**  
+- Chart.js **4.5.0**  
+- React Hot Toast **2.5.2**  
+- @huggingface/inference **4.6.1** (IA)  
 
-Licença
+### Persistência
+- LocalStorage  
+- API simulada (mock)  
 
-Equipe
+### Design
+- Glassmorphism  
+- Paleta de cores consistente  
+- Layout responsivo (mobile-first)  
 
-🎯 Visão Geral
+---
 
-O Lunysse foi criado para facilitar a marcação e o gerenciamento de sessões psicológicas, especialmente em projetos de atendimento voluntário.
-Com interfaces específicas para psicólogos e pacientes, o sistema oferece uma experiência simples, intuitiva e eficiente.
+## ▶️ Como Rodar
 
-Metas do Projeto
-
-Agendamento prático e rápido de consultas
-
-Gestão centralizada de pacientes para psicólogos
-
-Visualização de relatórios e análises
-
-Histórico detalhado de sessões
-
-Interface responsiva, moderna e de fácil navegação
-
-⚙️ Funcionalidades
-Para Psicólogos
-
-Painel com visão geral e KPIs
-
-Lista detalhada de pacientes
-
-Histórico e relatórios completos
-
-Controle de sessões (status, notas, relatórios)
-
-Chat integrado com IA especializada em psicologia
-
-Agenda personalizada com horários disponíveis
-
-Para Pacientes
-
-Painel com informações de suas consultas
-
-Marcação flexível de sessões (psicólogo, data, hora)
-
-Ver especialistas disponíveis e suas áreas
-
-Visualização de horários livres em tempo real
-
-Segurança e Autenticação
-
-Login seguro com validação
-
-Diferenciação automática entre perfis
-
-Interfaces de login distintas
-
-Cadastro com validação de dados
-
-Controle de acesso baseado em perfil
-
-🛠️ Tecnologias Utilizadas
-
-Frontend
-
-React 19.1.1
-
-Vite 7.1.0
-
-React Router DOM 7.8.0
-
-Tailwind CSS 4.1.11
-
-Framer Motion 12.23.12
-
-Lucide React 0.539.0
-
-Recharts 3.1.2
-
-Chart.js 4.5.0
-
-React Hot Toast 2.5.2
-
-@huggingface/inference 4.6.1 (IA)
-
-Persistência
-
-LocalStorage
-
-API simulada (mock)
-
-Design
-
-Glassmorphism
-
-Paleta de cores consistente
-
-Layout responsivo (mobile-first)
-
-▶️ Como Rodar
+```bash
 git clone https://github.com/seu-usuario/sistema-agendamento-psicologico.git
 cd sistema-agendamento-psicologico
 npm install
-cp .env.example .env   # configure seu token Hugging Face
+cp .env.example .env   
 npm run dev
 
-
-Acesse em: http://localhost:5173
-
-📂 Estrutura do Código
 src/
 ├── assets/
-│   └── components/       # Componentes reutilizáveis
+│   └── components/       
 │       ├── Button.jsx
 │       ├── CampoDeDescricao.jsx
 │       ├── Card.jsx
@@ -151,9 +106,8 @@ src/
 │       ├── Sidebar.jsx
 │       └── UpcomingAppointment.jsx
 │
-├── context/              # Contextos globais (auth, dados, etc.)
-│
-├── pages/                # Páginas principais
+├── context/              
+├── pages/                
 │   ├── About.jsx
 │   ├── Agendamento.jsx
 │   ├── ChatIA.jsx
@@ -170,14 +124,14 @@ src/
 │   └── Solicitacoes.jsx
 │
 ├── routes/
-│   └── AppRoutes.jsx     # Definição de rotas
+│   └── AppRoutes.jsx     
 │
-├── services/             # Mock API e integrações
-├── App.jsx               # Componente raiz
-├── main.jsx              # Ponto de entrada
-└── index.css             # Estilos globais
+├── services/             
+├── App.jsx              
+├── main.jsx              
+└── index.css         
 
-🧩 Componentes Principais
+Componentes Principais
 
 <Button /> – Botão com diferentes estilos
 
@@ -199,7 +153,7 @@ src/
 
 <UpcomingAppointment /> – Destaque de próximas consultas
 
-🌍 Rotas da Aplicação
+ Rotas da Aplicação
 Públicas
 
 / → Home
