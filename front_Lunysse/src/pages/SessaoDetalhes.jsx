@@ -95,7 +95,7 @@ export const SessaoDetalhes = () => {
             <ArrowLeft size={20} className="transition-transform duration-200 group-hover:-translate-x-1" />
             Voltar
           </button>
-          <h1 className="text-3xl font-bold text-white">Detalhes da Sessão</h1>
+          <h1 className="text-3xl font-bold text-dark">Detalhes da Sessão</h1>
         </div>
  
         <div className="flex items-center gap-3">

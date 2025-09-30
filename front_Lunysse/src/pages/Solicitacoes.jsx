@@ -89,7 +89,7 @@ export const Solicitacoes = () => {
         <div className="space-y-6">
             <div className="flex items-center gap-3">
                
-                <h1 className="text-3xl font-bold text-dark">Solicitações de Pacientes</h1>
+                <h1 className="text-3xl font-bold text-dark">Solicitações Para Atendimento</h1>
             </div>
 
             <div className="grid gap-6">

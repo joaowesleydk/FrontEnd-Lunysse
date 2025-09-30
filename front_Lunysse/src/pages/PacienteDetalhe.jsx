@@ -121,7 +121,7 @@ const Header = ({ onBack, title }) => (
       <ArrowLeft size={20} />
       Voltar
     </Button>
-    <h1 className="text-3xl font-bold text-white">{title}</h1>
+    <h1 className="text-3xl font-bold text-dark">{title}</h1>
   </div>
 );
  
