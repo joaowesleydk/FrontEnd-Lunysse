@@ -96,8 +96,8 @@ export const Solicitacoes = () => {
                 {requests.length === 0 ? (
                     <Card className="text-center py-2 bg-[#88C1D3]/30">
                         <Bell className="w-16 h-16 text-dark/30 mx-auto mb-4" />
-                        <h3 className="text-xl font-semibold text-dark mb-2">Nenhuma solicitação encontrada</h3>
-                        <p className="text-dark/70">As solicitações de novos pacientes aparecerão aqui.</p>
+                        <h3 className="text-xl font-semibold text-dark mb-2">Nenhuma solicitação pendente</h3>
+                        
                     </Card>
                 ) : (
                     requests.map(request => (
