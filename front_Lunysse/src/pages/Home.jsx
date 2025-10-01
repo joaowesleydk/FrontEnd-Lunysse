@@ -1,12 +1,12 @@
 // Importações necessárias 
-import { Link } from 'react-router-dom'; // Para navegação entre páginas
-import { motion } from 'framer-motion'; // Para animações suaves
-import { Shield, Zap, Users, Calendar, Activity, FileText } from 'lucide-react'; // Ícones vetoriais
-import { Button } from '../components/Button'; // Botão customizado do projeto
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { Shield, Zap, Users, Calendar, Activity, FileText } from 'lucide-react';
+import { Button } from '../components/Button';
+import { Card } from '../components/Card'; // Componente de Card
 
 // Página inicial (Home)
 export const Home = () => {
-  // Lista de recursos/funcionalidades que serão exibidos na seção de "features"
   const features = [
     {
       icon: Calendar,
@@ -42,66 +42,80 @@ export const Home = () => {
 
   return (
     <div>
-      {/* ================= HERO SECTION ================= */}
+      {/* ================= HERO SECTION COM CARDS ================= */}
       <section 
-        className="relative min-h-screen flex items-center  justify-center text-center py-20 bg-cover bg-center" 
-        style={{ backgroundImage: "url('/bg-home.jpg')" }} 
+        className="relative min-h-screen flex items-center justify-center py-20 bg-cover bg-center" 
+        style={{ backgroundImage: "url('/bg-home.jpg')" }}
       >
-        {/* Overlay escuro para contraste no texto */} 
-        <div className="absolute inset-0 bg-black/50"></div> 
+        {/* Overlay escuro para contraste */}
+        <div className="absolute inset-0 bg-black/50"></div>
 
-        <div className="relative z-10"> {/* ALTERADO */}
-          {/* Animação de entrada do framer-motion */}
+        <div className="relative z-10 w-full max-w-7xl px-4">
           <motion.div
-            initial={{ opacity: 0, y: 20 }} 
-            animate={{ opacity: 1, y: 0 }}   
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
+            className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center"
           >
-            {/* Logo centralizada */}
-            <div className="w-32 h-32 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl overflow-hidden bg-white">
-              <img src="/logo.png" alt="Lunysse" className="w-full h-full object-cover" />
-            </div>
-            
-            {/* Nome do sistema */}
-            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
-              Lunysse
-            </h1>
-            
-            {/* Subtítulo */}
-            <h2 className="text-2xl md:text-3xl font-medium text-white mb-6">
-              Sistema de Agendamento Psicológico
-            </h2>
-            
-            {/* Descrição principal */}
-            <p className="text-xl text-white mb-8 max-w-3xl mx-auto leading-relaxed">
-              Plataforma digital que otimiza o agendamento e gestão de atendimentos psicológicos voluntários. 
-              Desenvolvida para universidades, ONGs e projetos sociais que promovem saúde mental.
-            </p>
-            
-            {/* Botões de ação (CTA) */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              {/* Botão para criar conta */}
-              <Link to="/register">
-                <Button size="lg" className="w-full sm:w-auto">
-                  Começar Agora
-                </Button>
-              </Link>
 
-              {/* Botão para rolar até os recursos */}
-              <a href="/about" onClick={(e) => {
-           
-              }}>
-                <Button variant="secondary" size="lg" className="w-full sm:w-auto ">
-                  Conhecer Recursos
-                </Button>
-              </a>
+            {/* ========== Cards à esquerda ========== */}
+            <div className="space-y-8">
+              <Card
+                
+                className="min-h-[20px]"
+              >
+                <ul className=" text-sm text-dark list-disc list-inside space-y-1">
+                  <li>Agendamento 100% online</li>
+                  <li>Lembretes por e-mail e WhatsApp</li>
+                  <li>Sem burocracia ou exigência de plano</li>
+                </ul>
+              </Card>
+
+              <Card
+                
+                className="min-h-[20px]"
+              >
+                <ul className=" text-sm text-dark list-disc list-inside space-y-1">
+                  <li>Gestão centralizada de atendimentos</li>
+                  <li>Relatórios para prestação de contas</li>
+                  <li>Controle de fluxo e feedback dos pacientes</li>
+                </ul>
+              </Card>
+            </div>
+
+            {/* ========== Conteúdo principal ========== */}
+            <div className="text-center lg:text-left">
+              <div className="w-28 h-28 rounded-3xl flex items-center justify-center mx-auto lg:mx-0 mb-6 shadow-2xl overflow-hidden bg-white">
+                <img src="/logo.png" alt="Lunysse" className="w-full h-full object-cover" />
+              </div>
+
+              <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Lunysse</h1>
+              <h2 className="text-2xl md:text-3xl font-medium text-white mb-4">
+                Sistema de Agendamento Psicológico
+              </h2>
+
+              <p className="text-lg md:text-xl text-white mb-6 max-w-xl leading-relaxed">
+                Plataforma digital que otimiza o agendamento e gestão de atendimentos psicológicos voluntários. 
+                Desenvolvida para universidades, ONGs e projetos sociais que promovem saúde mental.
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                <Link to="/register">
+                  <Button size="lg" className="w-full sm:w-auto">
+                    Começar Agora
+                  </Button>
+                </Link>
+
+                <a href="/about">
+                  <Button variant="secondary" size="lg" className="w-full sm:w-auto">
+                    Conhecer Recursos
+                  </Button>
+                </a>
+              </div>
             </div>
           </motion.div>
         </div>
       </section>
-
-     
-
     </div>
   );
 };
