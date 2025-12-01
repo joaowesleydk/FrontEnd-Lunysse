@@ -1,14 +1,13 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { mockApi } from "../services/mockApi";
 import { Input } from "../components/Input";
 import { Button } from "../components/Button";
 import { Card } from "../components/Card";
 import toast from "react-hot-toast";
 
 export const Login = () => {
-  const [formData, setFormData] = useState({ email: '', password: '', confirmPassword: '' });
+  const [formData, setFormData] = useState({ email: '', password: '' });
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -17,19 +16,11 @@ export const Login = () => {
     e.preventDefault();
     setLoading(true);
 
-    // Verifica se a confirmação de senha é igual
-    if (formData.password !== formData.confirmPassword) {
-      toast.error("As senhas não coincidem.");
-      setLoading(false);
-      return;
-    }
-
     try {
-      const { user, token } = await mockApi.login(formData.email, formData.password);
-      login(user, token);
-      toast.success('Login realizado com sucesso!');
+      await login(formData.email, formData.password);
+      toast.success('Login realizada com sucesso!');
       navigate('/dashboard');
-    } catch (error) {
+    }catch (error) {
       toast.error(error.message);
     } finally {
       setLoading(false);

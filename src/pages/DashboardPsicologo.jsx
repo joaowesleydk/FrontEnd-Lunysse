@@ -1,100 +1,78 @@
-import React, { useState, useEffect, useCallback, Suspense } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { mockApi } from '../services/mockApi';
+import { appointmentService, patientService, requestService } from '../services/apiService';
+import { Card } from '../components/Card';
 import { LoadingSpinner } from '../components/LoadingSpinner';
-import { KpiCard } from '../components/KpiCard';
-import { Calendar, Users, Bell, CheckCheck } from 'lucide-react';
-
-// Lazy load para reduzir JS inicial
-const UpcomingAppointmentItem = React.lazy(() =>
-  import('../components/UpcomingAppointmentItem').then(module => ({
-    default: module.UpcomingAppointmentItem, // garante que funcione mesmo se export for nomeado
-  }))
-);
-
+import { Calendar, Users, Bell , CheckCheck} from 'lucide-react';
 export const DashboardPsicologo = () => {
   const { user } = useAuth();
   const [appointments, setAppointments] = useState([]);
   const [patients, setPatients] = useState([]);
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
-
   const loadData = useCallback(async () => {
     try {
+      console.log('Carregando dados do dashboard para psicólogo:', user.id);
       const [appointmentsData, patientsData, requestsData] = await Promise.all([
-        mockApi.getAppointments(user.id, 'psicologo'),
-        mockApi.getPatients(user.id),
-        mockApi.getRequests(user.id),
+        appointmentService.getAppointments(),
+        patientService.getPatients(),
+        requestService.getRequests('pendente')
       ]);
-
-      setAppointments(appointmentsData || []);
-      setPatients(patientsData || []);
-      setRequests(requestsData || []);
+      console.log('Agendamentos:', appointmentsData);
+      console.log('Pacientes:', patientsData);
+      console.log('Solicitações:', requestsData);
+      setAppointments(appointmentsData);
+      setPatients(patientsData);
+      setRequests(requestsData);
     } catch (error) {
       console.error('Erro ao carregar dados:', error);
     } finally {
       setLoading(false);
     }
   }, [user.id]);
-
   useEffect(() => {
     loadData();
   }, [loadData]);
-
+  // Recarrega quando a página fica visível e a cada 5 segundos
   useEffect(() => {
     const handleFocus = () => loadData();
-    window.addEventListener('focus', handleFocus);
-
-    const interval = setInterval(loadData, 10000); // menos requisições
-
+    window.addEventListener('focus', handleFocus);  
+    const interval = setInterval(loadData, 5000); // Recarrega a cada 5 segundos
     return () => {
       window.removeEventListener('focus', handleFocus);
       clearInterval(interval);
     };
   }, [loadData]);
-
-  if (loading) {
-    return (
-      <div className="py-10">
-        <LoadingSpinner size="lg" />
-      </div>
-    );
-  }
-
+  if (loading) return <LoadingSpinner size="lg" />;
+  // Filtra agendamentos de hoje para o psicólogo logado (apenas agendados)
   const today = new Date();
   today.setHours(0, 0, 0, 0);
-
-  const todayAppointments = appointments.filter((apt) => {
-    const appointmentDate = new Date(apt.date);
+  const todayAppointments = appointments.filter(apt => {
+    const appointmentDate = new Date(apt.appointment_date || apt.date);
     appointmentDate.setHours(0, 0, 0, 0);
-
     const isToday = appointmentDate.getTime() === today.getTime();
-    const isPsychologist = apt.psychologistId === user.id;
+    const isPsychologist = (apt.psychologist_id || apt.psychologistId) === user.id;
     const isScheduled = apt.status === 'agendado';
-
     return isToday && isPsychologist && isScheduled;
   });
-
+  // Estatísticas baseadas nos dados reais do psicólogo
   const totalPatients = patients.length;
-  const completedSessions = appointments.filter(
-    (apt) => apt.status === 'concluido' && apt.psychologistId === user.id
+  const completedSessions = appointments.filter(apt =>
+    apt.status === 'concluido' && (apt.psychologist_id || apt.psychologistId) === user.id
   ).length;
-  const pendingRequests = requests.filter(
-    (req) => req.status === 'pendente' && req.preferredPsychologist === user.id
+  const pendingRequests = requests.filter(req =>
+    req.status === 'pendente' && req.preferred_psychologist === user.id
   ).length;
-
-  // já limita para não trazer payload gigante
-  const upcomingAppointments = appointments
-    .filter(
-      (apt) =>
-        new Date(apt.date) >= new Date() &&
-        apt.status === 'agendado' &&
-        apt.psychologistId === user.id
-    )
-    .slice(0, 5);
-
-  const isNewPsychologist =
-    totalPatients === 0 && appointments.length === 0 && requests.length === 0;
+  // Próximos agendamentos do psicólogo
+  const upcomingAppointments = appointments.filter(apt => {
+    const appointmentDate = new Date(apt.appointment_date || apt.date);
+    const isPsychologist = (apt.psychologist_id || apt.psychologistId) === user.id;
+    const isScheduled = apt.status === 'agendado';
+    const isFuture = appointmentDate >= new Date();
+    return isFuture && isScheduled && isPsychologist;
+  }).slice(0, 5);
+  // Verifica se é um psicólogo novo (sem dados)
+  const isNewPsychologist = totalPatients === 0 && appointments.length === 0 && requests.length === 0;
 
   return (
     <div className="space-y-6">

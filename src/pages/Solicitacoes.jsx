@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { mockApi } from '../services/mockApi';
 import { Card } from '../components/Card';
 
 import { LoadingSpinner } from '../components/LoadingSpinner';
