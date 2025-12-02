@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { appointmentService, patientService, requestService } from '../services/apiService';
-import { Card } from '../components/Card';
+import { KpiCard } from '../components/KpiCard';
+
 import { LoadingSpinner } from '../components/LoadingSpinner';
 import { Calendar, Users, Bell , CheckCheck} from 'lucide-react';
 export const DashboardPsicologo = () => {

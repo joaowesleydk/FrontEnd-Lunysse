@@ -60,15 +60,7 @@ export const Login = () => {
             required
           />
 
-          {/* Campo de confirmar senha */}
-          <Input
-            label="Confirmar senha"
-            type="password"
-            value={formData.confirmPassword}
-            onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-            placeholder="Repita sua senha"
-            required
-          />
+        
 
           {/* Botão de login */}
           <Button

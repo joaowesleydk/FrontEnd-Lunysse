@@ -242,7 +242,7 @@ export const Register = () => {
           {userType === 'psicologo' && (
             <>
               <Input
-                label="CRM"
+                label="CRP"
                 value={formData.crm}
                 onChange={(e) => setFormData({ ...formData, crm: e.target.value })}
                 placeholder="Ex: CRP 12/34567"

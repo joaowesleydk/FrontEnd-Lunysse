@@ -133,9 +133,55 @@ export const AppRoutes = () => {
             <Register />
           </PublicRoute>
         } />
-    
+
+         {/* ==============================
+           Rotas Protegidas
+           ============================== */}
+        <Route path="/dashboard" element={
+          <ProtectedRoute>
+            <Dashboard /> {/* Escolhe dashboard de psicólogo ou paciente */}
+          </ProtectedRoute>
+        } />
+        <Route path="/agendamento" element={
+          <ProtectedRoute>
+            <Agendamento /> {/* Escolhe dashboard de psicólogo ou paciente */}
+          </ProtectedRoute>
+        } />
+        <Route path="/chat-ia" element={
+          <ProtectedRoute>
+            <ChatIA />
+          </ProtectedRoute>
+        } />
+        <Route path="/relatorios" element={
+          <ProtectedRoute>
+            <Relatorios />
+          </ProtectedRoute>
+        } />
+        <Route path="/solicitacoes" element={
+          <ProtectedRoute>
+            <Solicitacoes />
+          </ProtectedRoute>
+        } />
+        <Route path="/pacientes" element={
+          <ProtectedRoute>
+            <Pacientes />
+          </ProtectedRoute>
+        } />
+           
+        <Route path="/pacientes/:id" element={
+          <ProtectedRoute>
+            <PacienteDetalhe /> {/* Página de detalhes de paciente específico */}
+          </ProtectedRoute>
+        } />
+        <Route path="/sessao/:sessionId" element={
+          <ProtectedRoute>
+            <SessaoDetalhes /> {/* Detalhes de sessão específica */}
+          </ProtectedRoute>
+        } />
+ 
+                <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );
 };
- 
+   
